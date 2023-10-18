@@ -6,7 +6,10 @@ import Animated, {
   useAnimatedGestureHandler,
   withSpring,
 } from "react-native-reanimated";
-import { TapGestureHandler } from "react-native-gesture-handler";
+import {
+  TapGestureHandler,
+  PanGestureHandler,
+} from "react-native-gesture-handler";
 
 export default function EmojiSticker({ imageSize, stickerSource }) {
   const AnimatedImage = Animated.createAnimatedComponent(Image);
