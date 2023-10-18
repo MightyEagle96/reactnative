@@ -1,7 +1,15 @@
-import { StyleSheet, View, Pressable, Text } from "react-native";
+import { StyleSheet, View, Pressable, Text, Platform } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { httpService } from "../httpService";
 
 export default function ButtonComponent({ theme, label, onPress }) {
+  const testServer = async () => {
+    const { data, error } = await httpService(`version/${Platform.OS}`);
+
+    if (data) {
+      console.log(data);
+    }
+  };
   if (theme === "primary")
     return (
       <View
@@ -30,7 +38,7 @@ export default function ButtonComponent({ theme, label, onPress }) {
     );
   return (
     <View style={styles.buttonContainer}>
-      <Pressable style={styles.button} onPress={onPress}>
+      <Pressable style={styles.button} onPress={testServer}>
         <Text style={styles.buttonLabel}>{label}</Text>
       </Pressable>
     </View>

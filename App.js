@@ -9,6 +9,8 @@ import backgroundImage from "./assets/background.jpg";
 
 export default function App() {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [showAppOptions, setShowAppOptions] = useState(false);
+
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -16,7 +18,7 @@ export default function App() {
     });
 
     if (!result.canceled) {
-      console.log(result.assets[0].uri);
+      setShowAppOptions(true);
       setSelectedImage(result.assets[0].uri);
       // console.log(result);
     } else {
@@ -31,14 +33,22 @@ export default function App() {
           selectedImage={selectedImage}
         />
       </View>
-      <View style={styles.footerContainer}>
-        <ButtonComponent
-          theme={"primary"}
-          label={"Choose Photo"}
-          onPress={pickImageAsync}
-        />
-        <ButtonComponent label={"Use this photo"} />
-      </View>
+      {showAppOptions ? (
+        <View />
+      ) : (
+        <View style={styles.footerContainer}>
+          <ButtonComponent
+            theme={"primary"}
+            label={"Choose Photo"}
+            onPress={pickImageAsync}
+          />
+          <ButtonComponent
+            label={"Use this photo"}
+            onPress={() => setShowAppOptions(true)}
+          />
+        </View>
+      )}
+
       <StatusBar style="auto" />
     </View>
   );
