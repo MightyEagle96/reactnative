@@ -6,8 +6,12 @@ import ButtonComponent from "./components/ButtonComponent";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import backgroundImage from "./assets/background.jpg";
+import IconButton from "./components/IconButton";
+import CircleButton from "./components/CircleButton";
+import EmojiPicker from "./components/EmojiPicker";
 
 export default function App() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [showAppOptions, setShowAppOptions] = useState(false);
 
@@ -25,6 +29,15 @@ export default function App() {
       alert("No image selected");
     }
   };
+
+  const onAddSticker = () => {
+    setIsModalVisible(true);
+  };
+  const onModalClose = () => {
+    setIsModalVisible(false);
+  };
+
+  const onSaveImageAsync = () => {};
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -34,7 +47,21 @@ export default function App() {
         />
       </View>
       {showAppOptions ? (
-        <View />
+        <View style={styles.optionsContainer}>
+          <View style={styles.optionsRow}>
+            <IconButton
+              icon={"refresh"}
+              label={"Reset"}
+              onPress={() => setShowAppOptions(false)}
+            />
+            <CircleButton onPress={onAddSticker} />
+            <IconButton
+              icon={"save-alt"}
+              label={"Save"}
+              onPress={onSaveImageAsync}
+            />
+          </View>
+        </View>
       ) : (
         <View style={styles.footerContainer}>
           <ButtonComponent
@@ -49,6 +76,10 @@ export default function App() {
         </View>
       )}
 
+      <EmojiPicker
+        isVisible={isModalVisible}
+        onClose={onModalClose}
+      ></EmojiPicker>
       <StatusBar style="auto" />
     </View>
   );
@@ -66,4 +97,7 @@ const styles = StyleSheet.create({
   image: { width: 320, height: 440, borderRadius: 18 },
 
   footerContainer: { flex: 1 / 3, alignItems: "center" },
+
+  optionsContainer: { position: "absolute", bottom: 80 },
+  optionsRow: { alignItems: "center", flexDirection: "row" },
 });
